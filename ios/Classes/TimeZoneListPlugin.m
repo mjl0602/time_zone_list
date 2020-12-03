@@ -10,8 +10,18 @@
 }
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
-  if ([@"getPlatformVersion" isEqualToString:call.method]) {
-    result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
+  if ([@"getTimeZoneList" isEqualToString:call.method]) {
+      NSMutableArray<NSDictionary *> *list = [NSMutableArray new];
+      NSArray *allNames = [NSTimeZone knownTimeZoneNames];
+      for (NSString *name in allNames) {
+          double offset = [[NSTimeZone timeZoneWithName:name] daylightSavingTimeOffset];
+          [list addObject:@{
+                        @"name":name,
+                        @"offset":[NSNumber numberWithDouble:offset],
+          }];
+
+      }
+      result(@{@"list":list});
   } else {
     result(FlutterMethodNotImplemented);
   }

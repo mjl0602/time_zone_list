@@ -39,7 +39,8 @@ public class TimeZoneListPlugin implements FlutterPlugin, MethodCallHandler {
 
   @Override
   public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
+    if (call.method.equals("getTimeZoneList")) {
+//      String[] ids = TimeZone.getAvailableIDs();
       result.success("Android " + android.os.Build.VERSION.RELEASE);
     } else {
       result.notImplemented();

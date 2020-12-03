@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - time_zone_list (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - time_zone_list (from `.symlinks/plugins/time_zone_list/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  time_zone_list:
+    :path: ".symlinks/plugins/time_zone_list/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  time_zone_list: 3ed8a3fa974d2e6f3b727738f3183c452c16a9ef
+
+PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
+
+COCOAPODS: 1.9.1
