@@ -15,9 +15,11 @@
       NSArray *allNames = [NSTimeZone knownTimeZoneNames];
       for (NSString *name in allNames) {
           double offset = [[NSTimeZone timeZoneWithName:name] daylightSavingTimeOffset];
+          NSInteger timestamp = [[NSTimeZone timeZoneWithName:name] secondsFromGMT];
           [list addObject:@{
-                        @"name":name,
-                        @"offset":[NSNumber numberWithDouble:offset],
+                        @"tag":name,
+                        @"secondsFromGMT":[NSNumber numberWithLong: timestamp],
+                        @"dst":[NSNumber numberWithDouble:offset],
           }];
 
       }

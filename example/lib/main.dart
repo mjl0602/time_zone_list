@@ -27,7 +27,9 @@ class _MyAppState extends State<MyApp> {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      platformVersion = await TimeZoneList.platformVersion;
+      var res = await TimeZoneList.getTimeZoneList();
+      print(res);
+      platformVersion = res.join('\n');
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -49,8 +51,11 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('Plugin example app'),
         ),
-        body: Center(
-          child: Text('Running on: $_platformVersion\n'),
+        body: ListView(
+          padding: EdgeInsets.all(12),
+          children: [
+            Text('$_platformVersion\n'),
+          ],
         ),
       ),
     );

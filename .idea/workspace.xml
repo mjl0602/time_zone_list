@@ -7,12 +7,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0372493e-85d4-4110-a177-96ed5fe916cf" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/src/main/java/com/oversketch/time_zone_list/TimeZoneListPlugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/src/main/java/com/oversketch/time_zone_list/TimeZoneListPlugin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcworkspace/contents.xcworkspacedata" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/android/app/src/main/java/com/oversketch/time_zone_list_example/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/example/android/app/src/main/java/com/oversketch/time_zone_list_example/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Classes/TimeZoneListPlugin.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Classes/TimeZoneListPlugin.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/time_zone_list.iml" beforeDir="false" afterPath="$PROJECT_DIR$/time_zone_list.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/time_zone_list.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/time_zone_list.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/time_zone_list_test.dart" beforeDir="false" afterPath="$PROJECT_DIR$/test/time_zone_list_test.dart" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.dart_tool/" />
     <ignored path="$PROJECT_DIR$/.idea/" />
@@ -179,7 +178,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="23" width="1855" height="1057" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="TODO" order="6" />
