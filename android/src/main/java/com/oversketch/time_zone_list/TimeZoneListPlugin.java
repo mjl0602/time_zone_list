@@ -2,6 +2,7 @@ package com.oversketch.time_zone_list;
 
 import androidx.annotation.NonNull;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,16 +48,32 @@ public class TimeZoneListPlugin implements FlutterPlugin, MethodCallHandler {
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("getTimeZoneList")) {
+            Map arguments = (Map) call.arguments;
+            int rawTimeStamp = ((Integer) arguments.get("dateTime")).intValue();
+            long timeStamp = rawTimeStamp;
+            timeStamp = timeStamp * 1000;
             final Map<String, ArrayList<Map<String, Object>>> resultMap = new HashMap<>();
             final String[] availableIDs = TimeZone.getAvailableIDs();
             final ArrayList<Map<String, Object>> list = new ArrayList<>(availableIDs.length);
             for (String availableID : availableIDs) {
                 final TimeZone timeZone = TimeZone.getTimeZone(availableID);
-                final Map<String, Object> item = new HashMap<>();
-                item.put("tag", availableID);
-                item.put("secondsFromGMT", (timeZone.getRawOffset() / 1000));
-                item.put("dst", (timeZone.getDSTSavings() / 1000));
-                list.add(item);
+                if (timeZone.inDaylightTime(new Date(timeStamp))){
+                    final Map<String, Object> item = new HashMap<>();
+                    item.put("tag", availableID);
+                    item.put("secondsFromGMT", (timeZone.getOffset(timeStamp)+3600000) / 1000);
+                    item.put("dst", (3600000 / 1000));
+//                    item.put("time", new Date(timeStamp).toString());
+//                    item.put("timeStamp", timeStamp);
+                    list.add(item);
+                }else{
+                    final Map<String, Object> item = new HashMap<>();
+                    item.put("tag", availableID);
+                    item.put("secondsFromGMT", (timeZone.getOffset(timeStamp)/ 1000));
+                    item.put("dst", 0);
+//                    item.put("time", new Date(timeStamp).toString());
+//                    item.put("timeStamp", timeStamp);
+                    list.add(item);
+                }
             }
             resultMap.put("list", list);
             result.success(resultMap);

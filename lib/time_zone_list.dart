@@ -5,10 +5,15 @@ import 'package:flutter/services.dart';
 class TimeZoneList {
   static const MethodChannel _channel = const MethodChannel('time_zone_list');
 
-  static Future<List<TimeZoneInfo>> getTimeZoneList() async {
-    final Map result = await _channel.invokeMethod('getTimeZoneList');
+  static Future<List<TimeZoneInfo>> getTimeZoneList([DateTime dateTime]) async {
+    dateTime ??= DateTime.now();
+    final Map result = await _channel.invokeMethod('getTimeZoneList', {
+      'dateTime': dateTime.millisecondsSinceEpoch ~/ 1000,
+    });
     List list = result["list"];
-
+    // print(list.first['time']);
+    // print(list.first['timeStamp']);
+    // print(dateTime.millisecondsSinceEpoch ~/ 1000);
     return list
         .map(
           (e) => TimeZoneInfo(
@@ -38,9 +43,15 @@ class TimeZoneInfo {
   });
 
   Duration get offset => Duration(seconds: rawOffset + rawDstOffset);
+  Duration get gmtOffset => Duration(seconds: rawOffset);
+  Duration get dstOffset => Duration(seconds: rawDstOffset);
 
   @override
   String toString() {
-    return '$tag:${offset.inHours}:00';
+    // return '$tag:${offset.inHours}:00';
+    if (dstOffset.inHours == 0) {
+      return '$tag:${offset.inHours} GMT${gmtOffset.inHours}:00';
+    }
+    return '$tag:${offset.inHours} GMT${gmtOffset.inHours}:00 DST:${dstOffset.inHours}:00';
   }
 }

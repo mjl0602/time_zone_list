@@ -11,11 +11,13 @@
 
 - (void)handleMethodCall:(FlutterMethodCall*)call result:(FlutterResult)result {
   if ([@"getTimeZoneList" isEqualToString:call.method]) {
+      NSNumber *timeStamp = call.arguments[@"dateTime"];
+      NSDate *targetDate = [NSDate dateWithTimeIntervalSince1970:timeStamp.longValue];
       NSMutableArray<NSDictionary *> *list = [NSMutableArray new];
       NSArray *allNames = [NSTimeZone knownTimeZoneNames];
       for (NSString *name in allNames) {
-          double offset = [[NSTimeZone timeZoneWithName:name] daylightSavingTimeOffset];
-          NSInteger timestamp = [[NSTimeZone timeZoneWithName:name] secondsFromGMT];
+          double offset = [[NSTimeZone timeZoneWithName:name] daylightSavingTimeOffsetForDate:targetDate];
+          NSInteger timestamp = [[NSTimeZone timeZoneWithName:name] secondsFromGMTForDate:targetDate];
           [list addObject:@{
                         @"tag":name,
                         @"secondsFromGMT":[NSNumber numberWithLong: timestamp],

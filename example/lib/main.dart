@@ -14,7 +14,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _platformVersion = 'Unknown';
+  List<TimeZoneInfo> l = [];
+
+  bool isSummer = false;
 
   @override
   void initState() {
@@ -27,9 +29,12 @@ class _MyAppState extends State<MyApp> {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      var res = await TimeZoneList.getTimeZoneList();
-      print(res);
-      platformVersion = res.join('\n');
+      var res = await TimeZoneList.getTimeZoneList(isSummer
+          ? DateTime(2020, 5, 8, 8, 8, 8)
+          : DateTime(2020, 12, 8, 8, 8, 8));
+      // print(res);
+      res.sort((a, b) => (a.offset - b.offset).inSeconds);
+      l = res;
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
@@ -39,9 +44,7 @@ class _MyAppState extends State<MyApp> {
     // setState to update our non-existent appearance.
     if (!mounted) return;
 
-    setState(() {
-      _platformVersion = platformVersion;
-    });
+    setState(() {});
   }
 
   @override
@@ -49,13 +52,32 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: GestureDetector(
+            onTap: () {
+              setState(() {
+                isSummer = !isSummer;
+              });
+              initPlatformState();
+            },
+            child: Text(isSummer ? 'Summer' : 'Winter'),
+          ),
         ),
-        body: ListView(
+        body: ListView.builder(
           padding: EdgeInsets.all(12),
-          children: [
-            Text('$_platformVersion\n'),
-          ],
+          itemCount: l.length,
+          itemBuilder: (context, index) => Container(
+            padding: EdgeInsets.symmetric(
+              vertical: 4,
+              // horizontal: 12,
+            ),
+            child: Text(
+              '$index:${l[index].toString()}',
+              style: TextStyle(
+                color:
+                    l[index].dstOffset.inHours == 0 ? Colors.black : Colors.red,
+              ),
+            ),
+          ),
         ),
       ),
     );
