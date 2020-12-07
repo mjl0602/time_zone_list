@@ -1,7 +1,7 @@
 ## 0.2.0
 
-* add current time zone getter function.
+* Add current time zone getter function.
 
 ## 0.1.0
 
-* init.
+* Init.
