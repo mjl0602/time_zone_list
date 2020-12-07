@@ -23,9 +23,18 @@
                         @"secondsFromGMT":[NSNumber numberWithLong: timestamp],
                         @"dst":[NSNumber numberWithDouble:offset],
           }];
-
       }
       result(@{@"list":list});
+  }if ([@"getCurrentTimeZone" isEqualToString:call.method]) {
+      NSDate *targetDate = [NSDate date];
+      NSTimeZone *timeZone = [NSTimeZone localTimeZone];
+      double offset = [timeZone daylightSavingTimeOffsetForDate:targetDate];
+      NSInteger timestamp = [timeZone secondsFromGMTForDate:targetDate];
+      result(@{
+          @"tag":timeZone.name,
+          @"offset":[NSNumber numberWithLong: timestamp+offset],
+          @"inDST": offset == 0 ? @0 : @1,
+             });
   } else {
     result(FlutterMethodNotImplemented);
   }

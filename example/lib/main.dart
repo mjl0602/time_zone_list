@@ -17,6 +17,7 @@ class _MyAppState extends State<MyApp> {
   List<TimeZoneInfo> l = [];
 
   bool isSummer = false;
+  String current = 'loading';
 
   @override
   void initState() {
@@ -29,7 +30,8 @@ class _MyAppState extends State<MyApp> {
     String platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      var res = await TimeZoneList.getTimeZoneList(isSummer
+      current = (await TimeZoneList.current()).toString();
+      var res = await TimeZoneList.getList(isSummer
           ? DateTime(2020, 5, 8, 8, 8, 8)
           : DateTime(2020, 12, 8, 8, 8, 8));
       // print(res);
@@ -62,22 +64,33 @@ class _MyAppState extends State<MyApp> {
             child: Text(isSummer ? 'Summer' : 'Winter'),
           ),
         ),
-        body: ListView.builder(
-          padding: EdgeInsets.all(12),
-          itemCount: l.length,
-          itemBuilder: (context, index) => Container(
-            padding: EdgeInsets.symmetric(
-              vertical: 4,
-              // horizontal: 12,
+        body: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(12),
+              child: Text(current),
             ),
-            child: Text(
-              '$index:${l[index].toString()}',
-              style: TextStyle(
-                color:
-                    l[index].dstOffset.inHours == 0 ? Colors.black : Colors.red,
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.all(12),
+                itemCount: l.length,
+                itemBuilder: (context, index) => Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 4,
+                    // horizontal: 12,
+                  ),
+                  child: Text(
+                    '$index:${l[index].toString()}',
+                    style: TextStyle(
+                      color: l[index].dstOffset.inHours == 0
+                          ? Colors.black
+                          : Colors.red,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
+          ],
         ),
       ),
     );

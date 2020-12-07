@@ -62,21 +62,25 @@ public class TimeZoneListPlugin implements FlutterPlugin, MethodCallHandler {
                     item.put("tag", availableID);
                     item.put("secondsFromGMT", (timeZone.getOffset(timeStamp)+3600000) / 1000);
                     item.put("dst", (3600000 / 1000));
-//                    item.put("time", new Date(timeStamp).toString());
-//                    item.put("timeStamp", timeStamp);
                     list.add(item);
                 }else{
                     final Map<String, Object> item = new HashMap<>();
                     item.put("tag", availableID);
                     item.put("secondsFromGMT", (timeZone.getOffset(timeStamp)/ 1000));
                     item.put("dst", 0);
-//                    item.put("time", new Date(timeStamp).toString());
-//                    item.put("timeStamp", timeStamp);
                     list.add(item);
                 }
             }
             resultMap.put("list", list);
             result.success(resultMap);
+        }if (call.method.equals("getCurrentTimeZone")) {
+            final TimeZone timeZone = TimeZone.getDefault();
+            final Map<String, Object> item = new HashMap<>();
+            long t = System.currentTimeMillis();
+            item.put("tag", timeZone.getID());
+            item.put("offset", (timeZone.getOffset(t)/ 1000));
+            item.put("inDST", timeZone.inDaylightTime(new Date(t)) ? 1 : 0);
+            result.success(item);
         } else {
             result.notImplemented();
         }
