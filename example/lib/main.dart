@@ -31,12 +31,14 @@ class _MyAppState extends State<MyApp> {
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       current = (await TimeZoneList.current()).toString();
-      var res = await TimeZoneList.getList(isSummer
-          ? DateTime(2020, 5, 8, 8, 8, 8)
-          : DateTime(2020, 12, 8, 8, 8, 8));
+      var list = await TimeZoneList.getList(
+        isSummer
+            ? DateTime(2020, 5, 8, 8, 8, 8)
+            : DateTime(2020, 12, 8, 8, 8, 8),
+      );
       // print(res);
-      res.sort((a, b) => (a.offset - b.offset).inSeconds);
-      l = res;
+      list.sort((a, b) => (a.offset - b.offset).inSeconds);
+      l = list;
     } on PlatformException {
       platformVersion = 'Failed to get platform version.';
     }
