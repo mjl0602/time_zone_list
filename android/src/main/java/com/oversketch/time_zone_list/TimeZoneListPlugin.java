@@ -92,7 +92,7 @@ public class TimeZoneListPlugin implements FlutterPlugin, MethodCallHandler {
             item.put("tag", timeZone.getID());
             item.put("offset", (timeZone.getOffset(t)/ 1000));
             item.put("inDST", timeZone.inDaylightTime(new Date(t)) ? 1 : 0);
-            item.put("time", t);
+//            item.put("time", t);
             result.success(item);
         } else {
             result.notImplemented();

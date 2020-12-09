@@ -26,13 +26,10 @@ class TimeZoneList {
     final Map e = await _channel.invokeMethod('getCurrentTimeZone');
     var offset = e['offset'] ~/ 1;
     bool inDST = e['inDST'] == 1;
-    if (inDST) {
-      offset -= 3600000;
-    }
-    return TimeZoneInfo(
+    return TimeZoneInfo.fromOffset(
       tag: e['tag'],
-      rawOffset: offset,
-      rawDstOffset: inDST ? 3600000 : 0,
+      offset: offset,
+      inDST: inDST,
     );
   }
 
@@ -46,14 +43,10 @@ class TimeZoneList {
     var offset = e['offset'] ~/ 1;
     bool inDST = e['inDST'] == 1;
 
-    // print('=: ${DateTime.fromMillisecondsSinceEpoch(e['time'])}');
-    if (inDST) {
-      offset -= 3600;
-    }
-    return TimeZoneInfo(
+    return TimeZoneInfo.fromOffset(
       tag: e['tag'],
-      rawOffset: offset,
-      rawDstOffset: inDST ? 3600 : 0,
+      offset: offset,
+      inDST: inDST,
     );
   }
 }
@@ -82,8 +75,8 @@ class TimeZoneInfo {
     bool inDST,
   }) : this(
           tag: tag,
-          rawOffset: offset += inDST ? 3600000 : 0,
-          rawDstOffset: inDST ? 3600000 : 0,
+          rawOffset: offset -= (inDST ? 3600 : 0),
+          rawDstOffset: inDST ? 3600 : 0,
         );
 
   Duration get offset => Duration(seconds: rawOffset + rawDstOffset);
@@ -106,7 +99,7 @@ class TimeZoneInfo {
   @override
   String toString() {
     if (dstOffset.inHours == 0) {
-      return '$tag GMT${gmtOffset.inHours}:00';
+      return '$tag: GMT${gmtOffset.inHours}:00';
     }
     return '$tag: $timeZone(GMT${gmtOffset.inHours}:00 DST:${dstOffset.inHours}:00)';
   }
