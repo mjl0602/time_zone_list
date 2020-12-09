@@ -97,6 +97,17 @@ class TimeZoneInfo {
   }
 
   @override
+  int get hashCode => this.tag.hashCode;
+
+  @override
+  bool operator ==(Object other) {
+    if (other is TimeZoneInfo) {
+      return this.tag == other.tag;
+    }
+    return false;
+  }
+
+  @override
   String toString() {
     if (dstOffset.inHours == 0) {
       return '$tag: GMT${gmtOffset.inHours}:00';

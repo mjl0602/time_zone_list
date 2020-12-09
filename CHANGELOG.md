@@ -1,3 +1,6 @@
+## 0.2.2
+
+* Override == for TimeZoneInfo class.
 ## 0.2.1
 
 * Fix time zone calculate bug.
