@@ -13,6 +13,8 @@ var listNow = await TimeZoneList.getList();
 var list = await TimeZoneList.getList(
     DateTime(2020, 5, 8, 8, 8, 8),
 );
+
+var laZone = await TimeZoneList.timeZone('America/Los_Angeles', date);
 ```
 
 ## Upload

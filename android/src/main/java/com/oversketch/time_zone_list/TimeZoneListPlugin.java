@@ -60,7 +60,7 @@ public class TimeZoneListPlugin implements FlutterPlugin, MethodCallHandler {
                 if (timeZone.inDaylightTime(new Date(timeStamp))){
                     final Map<String, Object> item = new HashMap<>();
                     item.put("tag", availableID);
-                    item.put("secondsFromGMT", (timeZone.getOffset(timeStamp)+3600000) / 1000);
+                    item.put("secondsFromGMT", (timeZone.getOffset(timeStamp)-3600000) / 1000);
                     item.put("dst", (3600000 / 1000));
                     list.add(item);
                 }else{
@@ -73,13 +73,26 @@ public class TimeZoneListPlugin implements FlutterPlugin, MethodCallHandler {
             }
             resultMap.put("list", list);
             result.success(resultMap);
-        }if (call.method.equals("getCurrentTimeZone")) {
+        }else if (call.method.equals("getCurrentTimeZone")) {
             final TimeZone timeZone = TimeZone.getDefault();
             final Map<String, Object> item = new HashMap<>();
             long t = System.currentTimeMillis();
             item.put("tag", timeZone.getID());
             item.put("offset", (timeZone.getOffset(t)/ 1000));
             item.put("inDST", timeZone.inDaylightTime(new Date(t)) ? 1 : 0);
+            result.success(item);
+        }else if (call.method.equals("getTimeZone")) {
+            Map arguments = (Map) call.arguments;
+            int rawTimeStamp = ((Integer) arguments.get("dateTime")).intValue();
+            String timeZoneId = (String) arguments.get("tag");
+            long timeStamp = rawTimeStamp * 1000;
+            final TimeZone timeZone = TimeZone.getTimeZone(timeZoneId);
+            final Map<String, Object> item = new HashMap<>();
+            long t = timeStamp * 1000;
+            item.put("tag", timeZone.getID());
+            item.put("offset", (timeZone.getOffset(t)/ 1000));
+            item.put("inDST", timeZone.inDaylightTime(new Date(t)) ? 1 : 0);
+            item.put("time", t);
             result.success(item);
         } else {
             result.notImplemented();

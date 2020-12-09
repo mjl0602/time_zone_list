@@ -1,6 +1,6 @@
 name: time_zone_list
 description: Get time zone list from native side, include DST/GMT info
-version: 0.2.0
+version: 0.2.1
 repository: https://github.com/mjl0602/time_zone_list
 
 environment:

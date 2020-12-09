@@ -27,12 +27,33 @@ class TimeZoneList {
     var offset = e['offset'] ~/ 1;
     bool inDST = e['inDST'] == 1;
     if (inDST) {
-      offset += 3600000;
+      offset -= 3600000;
     }
     return TimeZoneInfo(
       tag: e['tag'],
       rawOffset: offset,
       rawDstOffset: inDST ? 3600000 : 0,
+    );
+  }
+
+  static Future<TimeZoneInfo> timeZone(String tag, [DateTime dateTime]) async {
+    dateTime ??= DateTime.now();
+    print('time: $dateTime');
+    final Map e = await _channel.invokeMethod('getTimeZone', {
+      'tag': tag,
+      'dateTime': dateTime.millisecondsSinceEpoch ~/ 1000,
+    });
+    var offset = e['offset'] ~/ 1;
+    bool inDST = e['inDST'] == 1;
+
+    // print('=: ${DateTime.fromMillisecondsSinceEpoch(e['time'])}');
+    if (inDST) {
+      offset -= 3600;
+    }
+    return TimeZoneInfo(
+      tag: e['tag'],
+      rawOffset: offset,
+      rawDstOffset: inDST ? 3600 : 0,
     );
   }
 }
@@ -87,7 +108,7 @@ class TimeZoneInfo {
     if (dstOffset.inHours == 0) {
       return '$tag GMT${gmtOffset.inHours}:00';
     }
-    return '$tag GMT${gmtOffset.inHours}:00 DST:${dstOffset.inHours}:00';
+    return '$tag: $timeZone(GMT${gmtOffset.inHours}:00 DST:${dstOffset.inHours}:00)';
   }
 }
 
