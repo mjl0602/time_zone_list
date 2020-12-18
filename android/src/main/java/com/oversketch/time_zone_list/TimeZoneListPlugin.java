@@ -1,5 +1,7 @@
 package com.oversketch.time_zone_list;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import java.sql.Date;
@@ -49,7 +51,7 @@ public class TimeZoneListPlugin implements FlutterPlugin, MethodCallHandler {
     public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
         if (call.method.equals("getTimeZoneList")) {
             Map arguments = (Map) call.arguments;
-            int rawTimeStamp = ((Integer) arguments.get("dateTime")).intValue();
+            long rawTimeStamp = ((Integer) arguments.get("dateTime")).longValue();
             long timeStamp = rawTimeStamp;
             timeStamp = timeStamp * 1000;
             final Map<String, ArrayList<Map<String, Object>>> resultMap = new HashMap<>();
@@ -83,16 +85,16 @@ public class TimeZoneListPlugin implements FlutterPlugin, MethodCallHandler {
             result.success(item);
         }else if (call.method.equals("getTimeZone")) {
             Map arguments = (Map) call.arguments;
-            int rawTimeStamp = ((Integer) arguments.get("dateTime")).intValue();
+            long rawTimeStamp = ((Integer) arguments.get("dateTime")).longValue();
             String timeZoneId = (String) arguments.get("tag");
             long timeStamp = rawTimeStamp * 1000;
             final TimeZone timeZone = TimeZone.getTimeZone(timeZoneId);
             final Map<String, Object> item = new HashMap<>();
-            long t = timeStamp * 1000;
+            long t = timeStamp + 0;
             item.put("tag", timeZone.getID());
             item.put("offset", (timeZone.getOffset(t)/ 1000));
             item.put("inDST", timeZone.inDaylightTime(new Date(t)) ? 1 : 0);
-//            item.put("time", t);
+            item.put("time", t);
             result.success(item);
         } else {
             result.notImplemented();

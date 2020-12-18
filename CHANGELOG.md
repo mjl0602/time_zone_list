@@ -1,3 +1,6 @@
+## 0.2.3
+
+* Fix bug of android.
 ## 0.2.2
 
 * Override == for TimeZoneInfo class.

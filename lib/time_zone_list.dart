@@ -40,6 +40,8 @@ class TimeZoneList {
       'tag': tag,
       'dateTime': dateTime.millisecondsSinceEpoch ~/ 1000,
     });
+    // var date = DateTime.fromMillisecondsSinceEpoch(e['time']);
+    // print(date);
     var offset = e['offset'] ~/ 1;
     bool inDST = e['inDST'] == 1;
 

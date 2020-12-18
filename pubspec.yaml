@@ -1,7 +1,8 @@
 name: time_zone_list
 description: Get time zone list from native side, include DST/GMT info
-version: 0.2.2
+version: 0.2.3
 repository: https://github.com/mjl0602/time_zone_list
+publish_to: https://pub.dartlang.org
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
