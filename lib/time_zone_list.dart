@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 class TimeZoneList {
   static const MethodChannel _channel = const MethodChannel('time_zone_list');
 
-  static Future<List<TimeZoneInfo>> getList([DateTime dateTime]) async {
+  static Future<List<TimeZoneInfo>> getList([DateTime? dateTime]) async {
     dateTime ??= DateTime.now();
     final Map result = await _channel.invokeMethod('getTimeZoneList', {
       'dateTime': dateTime.millisecondsSinceEpoch ~/ 1000,
@@ -33,7 +33,7 @@ class TimeZoneList {
     );
   }
 
-  static Future<TimeZoneInfo> timeZone(String tag, [DateTime dateTime]) async {
+  static Future<TimeZoneInfo> timeZone(String tag, [DateTime? dateTime]) async {
     dateTime ??= DateTime.now();
     print('time: $dateTime');
     final Map e = await _channel.invokeMethod('getTimeZone', {
@@ -55,13 +55,13 @@ class TimeZoneList {
 
 class TimeZoneInfo {
   /// 时区名称
-  final String tag;
+  final String? tag;
 
   /// 标准的时区偏差，单位为秒，中国为+8小时
-  final int rawOffset;
+  final int? rawOffset;
 
   /// 夏令时产生的的时区偏差，单位为秒
-  final int rawDstOffset;
+  final int? rawDstOffset;
 
   bool get inDST => rawOffset != 0;
 
@@ -72,18 +72,18 @@ class TimeZoneInfo {
   });
 
   TimeZoneInfo.fromOffset({
-    String tag,
-    int offset,
-    bool inDST,
+    String? tag,
+    required int offset,
+    required bool inDST,
   }) : this(
           tag: tag,
           rawOffset: offset -= (inDST ? 3600 : 0),
           rawDstOffset: inDST ? 3600 : 0,
         );
 
-  Duration get offset => Duration(seconds: rawOffset + rawDstOffset);
-  Duration get gmtOffset => Duration(seconds: rawOffset);
-  Duration get dstOffset => Duration(seconds: rawDstOffset);
+  Duration get offset => Duration(seconds: rawOffset! + rawDstOffset!);
+  Duration get gmtOffset => Duration(seconds: rawOffset!);
+  Duration get dstOffset => Duration(seconds: rawDstOffset!);
 
   String get timeZone {
     var h = offset.inHours;
